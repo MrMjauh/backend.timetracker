@@ -1,7 +1,5 @@
 package com.codecamos.timetracking.config;
 
-import javax.servlet.http.HttpServletResponse;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +27,15 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
 
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		if (Resource.isInDevOrStage(env.getActiveProfiles())) {
+		if (Resource.isInDevOrStage(this.env.getActiveProfiles())) {
 			http
 					.csrf().disable()
 					.logout().disable()
 					.formLogin().disable()
 					.authorizeRequests()
 					.antMatchers("*").permitAll();
-		} else {
+		}
+		else {
 			http
 					.csrf().disable()
 					.logout().disable()
@@ -49,8 +48,7 @@ public class Config extends WebSecurityConfigurerAdapter implements WebMvcConfig
 	}
 
 	@Bean
-	public ObjectMapper jsonMapper()
-	{
+	public ObjectMapper jsonMapper() {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper;
