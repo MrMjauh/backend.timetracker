@@ -34,5 +34,10 @@ public final class Resource {
 		* Generic error code, use as little as possible
 		*/
 		public static final long GENERIC_CODE = 9999;
+
+		/**
+		 * Code used for accessing an endpoint that does not exist, is missing or is forbidden
+		 */
+		public static final long FORBIDDEN_MISSING_OR_MOVE = 9990;
 	}
 }

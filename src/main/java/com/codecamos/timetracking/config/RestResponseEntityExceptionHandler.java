@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -24,11 +25,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleConflict(
 			final Exception ex, final WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		ApiError apiError = new ApiError();
 		if (ex instanceof BaseException) {
 			BaseException baseException = (BaseException) ex;
 			apiError.setCode(baseException.getCode());
 			apiError.setMessage(baseException.getMessage());
+			if (ex.getClass().isAnnotationPresent(ResponseStatus.class)) {
+				ResponseStatus responseStatusAnnoation = ex.getClass().getAnnotation(ResponseStatus.class);
+				status = responseStatusAnnoation.code();
+			}
 		}
 		else {
 			apiError.setCode(Resource.ErrorCode.GENERIC_CODE);
@@ -44,6 +50,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		}
 
 		return handleExceptionInternal(ex, apiError,
-				new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+				new HttpHeaders(), status, request);
 	}
 }

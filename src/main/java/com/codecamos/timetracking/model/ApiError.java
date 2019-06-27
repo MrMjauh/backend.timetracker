@@ -13,4 +13,8 @@ public class ApiError {
 	private String message;
 	private Exception exception;
 
+	public ApiError(long code, String message) {
+		this.code = code;
+		this.message = message;
+	}
 }

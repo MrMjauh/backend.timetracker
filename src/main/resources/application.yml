@@ -1,10 +1,10 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   data.mongodb:
-    host: ${MONGO_HOST}
-    port: ${MONGO_PORT}
-    database: ${MONGO_DATABASE}
+#    host: ${MONGO_HOST}
+#    port: ${MONGO_PORT}
+#    database: ${MONGO_DATABASE}
 
 server:
   port: 8080

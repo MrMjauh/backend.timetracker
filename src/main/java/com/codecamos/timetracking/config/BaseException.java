@@ -1,7 +1,6 @@
 package com.codecamos.timetracking.config;
 
 import lombok.Getter;
-
 @Getter
 public class BaseException extends RuntimeException {
 
