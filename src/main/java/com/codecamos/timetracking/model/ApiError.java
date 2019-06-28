@@ -17,4 +17,21 @@ public class ApiError {
 		this.code = code;
 		this.message = message;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		else if (o == this) {
+			return true;
+		} else if (!o.getClass().equals(this.getClass())) {
+			return false;
+		}
+
+		ApiError other = (ApiError) o;
+		return 	other.message.equals(this.message) &&
+				other.code == this.code &&
+				other.exception.equals(this.exception);
+	}
 }

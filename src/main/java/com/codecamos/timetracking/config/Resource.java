@@ -1,6 +1,8 @@
 package com.codecamos.timetracking.config;
 
 
+import com.codecamos.timetracking.model.ApiError;
+
 public final class Resource {
 
 	private Resource() { }
@@ -40,4 +42,6 @@ public final class Resource {
 		 */
 		public static final long FORBIDDEN_MISSING_OR_MOVE = 9990;
 	}
+
+	public static final ApiError GENERIC_ERROR = new ApiError(ErrorCode.GENERIC_CODE, "Generic error message");
 }
