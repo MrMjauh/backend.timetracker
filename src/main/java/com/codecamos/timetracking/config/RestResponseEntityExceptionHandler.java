@@ -17,28 +17,37 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@Autowired
 	Environment env;
 
 	private static final Logger logger = LogManager.getLogger(RestResponseEntityExceptionHandler.class);
+	public static final HttpStatus DEFAULT_STATUS_CODE = HttpStatus.BAD_REQUEST;
+
+	@Autowired
+	public RestResponseEntityExceptionHandler(Environment env) {
+		this.env = env;
+	}
 
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleConflict(
 			final Exception ex, final WebRequest request) {
-		HttpStatus status = HttpStatus.BAD_REQUEST;
-		ApiError apiError = new ApiError();
-		if (ex instanceof BaseException) {
+		HttpStatus status = DEFAULT_STATUS_CODE;
+
+		ApiError apiError;
+		if (ex == null) {
+			apiError = Resource.GENERIC_ERROR;
+		}
+		else if (ex instanceof BaseException) {
 			BaseException baseException = (BaseException) ex;
+			apiError = new ApiError();
 			apiError.setCode(baseException.getCode());
 			apiError.setMessage(baseException.getMessage());
 			if (ex.getClass().isAnnotationPresent(ResponseStatus.class)) {
-				ResponseStatus responseStatusAnnoation = ex.getClass().getAnnotation(ResponseStatus.class);
-				status = responseStatusAnnoation.code();
+				ResponseStatus responseStatusAnnotation = ex.getClass().getAnnotation(ResponseStatus.class);
+				status = responseStatusAnnotation.code();
 			}
 		}
 		else {
-			apiError.setCode(Resource.ErrorCode.GENERIC_CODE);
-			apiError.setMessage("Something went wrong :(");
+			apiError = Resource.GENERIC_ERROR;
 		}
 
 		logger.error(ex);
