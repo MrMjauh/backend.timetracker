@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	Environment env;
+	private Environment env;
 
 	private static final Logger logger = LogManager.getLogger(RestResponseEntityExceptionHandler.class);
 	public static final HttpStatus DEFAULT_STATUS_CODE = HttpStatus.BAD_REQUEST;
@@ -45,6 +46,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				ResponseStatus responseStatusAnnotation = ex.getClass().getAnnotation(ResponseStatus.class);
 				status = responseStatusAnnotation.code();
 			}
+		}
+		else if (ex instanceof AccessDeniedException) {
+			apiError = Resource.ACCESS_ERROR;
 		}
 		else {
 			apiError = Resource.GENERIC_ERROR;

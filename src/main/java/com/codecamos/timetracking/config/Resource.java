@@ -35,13 +35,22 @@ public final class Resource {
 		/**
 		* Generic error code, use as little as possible
 		*/
-		public static final long GENERIC_CODE = 9999;
+		public static final int GENERIC = 9999;
+		/**
+		 * Code used when access for a certain endpoint or service is not permitted
+		 */
+		public static final int ACCESS_FORBIDDEN = 9998;
 
 		/**
 		 * Code used for accessing an endpoint that does not exist, is missing or is forbidden
 		 */
-		public static final long FORBIDDEN_MISSING_OR_MOVE = 9990;
+		public static final int FORBIDDEN_MISSING_OR_MOVE = 9997;
+		/**
+		 * The resource you are querying can not be found
+		 */
+		public static final int RESOURCE_NOT_FOUND = 9996;
 	}
 
-	public static final ApiError GENERIC_ERROR = new ApiError(ErrorCode.GENERIC_CODE, "Generic error message");
+	public static final ApiError GENERIC_ERROR = new ApiError(ErrorCode.GENERIC, "Generic error message");
+	public static final ApiError ACCESS_ERROR = new ApiError(ErrorCode.ACCESS_FORBIDDEN, "You do not have permission to access this endpoint");
 }
