@@ -1,14 +1,13 @@
 package com.codecamos.timetracking.config;
 
 import com.codecamos.timetracking.model.ApiError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class RestResponseEntityExceptionHandlerTest {

@@ -51,11 +51,35 @@ dependencies {
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-	testImplementation('org.mockito:mockito-core:2.1.0')
-	testImplementation('junit:junit:4.12')
+	testImplementation 'org.mockito:mockito-core:2.1.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+}
+
+sourceSets {
+	integrationTest {
+		java {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+			srcDir file('src/integration-test/java')
+		}
+		resources.srcDir file('src/integration-test/resources')
+	}
+}
+
+configurations {
+	integrationTestCompile.extendsFrom testCompile
+	integrationTestRuntime.extendsFrom testRuntime
+	integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+	integrationTestImplementation.extendsFrom testImplementation
+}
+
+task integrationTest(type: Test) {
+	useJUnitPlatform()
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
 test {
-	useJUnit()
-	maxHeapSize = '1G'
+	useJUnitPlatform()
 }
