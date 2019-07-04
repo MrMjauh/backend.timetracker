@@ -75,7 +75,7 @@ public class AuthTest {
 		when(tokenService.getUserFromToken(any())).thenReturn(null);
 
 		mvc.perform(get("/user").header(SecurityResource.X_AUTH_KEY, "dummy_token"))
-				.andExpect(content().string(genericErrorReturnAsString()))
+				.andExpect(content().string(genericErrorAsString()))
 				.andExpect(status().isBadRequest());
 	}
 
@@ -93,7 +93,7 @@ public class AuthTest {
 		return mapper.writeValueAsString(UserDTO.from(dummyUser()));
 	}
 
-	private String genericErrorReturnAsString() throws JsonProcessingException {
+	private String genericErrorAsString() throws JsonProcessingException {
 		return mapper.writeValueAsString(Resource.GENERIC_ERROR);
 	}
 }
